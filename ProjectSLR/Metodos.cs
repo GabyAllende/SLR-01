@@ -479,7 +479,7 @@ namespace ProjectSLR
                             }
                             foreach (string s in lista_siguientes) 
                             {
-                                miniCamino = (s, "r" + q.ToString());
+                                miniCamino = (s, "r" + (q+1).ToString());
                                 caminoIndividual.Add(miniCamino);
 
                             }
