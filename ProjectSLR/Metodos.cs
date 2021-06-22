@@ -8,6 +8,10 @@ namespace ProjectSLR
 {
     public static class Metodos
     {
+
+        public static List<List<(string, List<string>, int)>> estados { get; set; }
+
+
         public static bool isNumber(string cadena)
         {
             foreach (char a in cadena)
@@ -394,7 +398,7 @@ namespace ProjectSLR
             
        }
 
-        public static List<List<(string, string)>> automataSLR(List<string> terminales , List<string> noterminales , List<(string, List<string>)> tablaBase)
+        public static (List<List<(string, string)>> , List<List<(string, List<string>, int)>>) automataSLR(List<string> terminales , List<string> noterminales , List<(string, List<string>)> tablaBase)
         {
 
 
@@ -414,7 +418,7 @@ namespace ProjectSLR
 
 
 
-            List<List<(string, List<string>, int)>> estados = new List<List<(string, List<string>, int)>>();
+            estados = new List<List<(string, List<string>, int)>>();
 
             //Crear primer estado
 
@@ -636,7 +640,7 @@ namespace ProjectSLR
             }
 
 
-            return caminos;
+            return (caminos, estados);
         }
 
     }

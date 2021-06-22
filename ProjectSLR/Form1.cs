@@ -18,6 +18,10 @@ namespace ProjectSLR
         public static (string, string[][])[] gramatica1 { get; set; }
         public static List<(string, List<string>)> gramatica2 { get; set; }
 
+        List<List<(string, List<string>, int)>> estados { get; set; }
+
+        List<List<(string, string)>> caminos { get; set; }
+
         public Form1()
         {
             InitializeComponent();
@@ -166,7 +170,8 @@ namespace ProjectSLR
 
             printGram1();
             //Metodos.printGramatica2(gramatica2);
-            List<List<(string, string)>> caminos = Metodos.automataSLR(terminales, noterminales, gramatica2);
+            (caminos, estados) = Metodos.automataSLR(terminales, noterminales, gramatica2);
+            
             Console.WriteLine("IMPRIMIENTO LOS CAMINOS");
             foreach (var camino in caminos)
             {
