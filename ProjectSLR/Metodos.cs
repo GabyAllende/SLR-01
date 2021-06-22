@@ -96,6 +96,7 @@ namespace ProjectSLR
             }
             return prd;
         }
+
         public static List<string> siguientes(string nombreProd)
         {
             List<string> temp = new List<string>();
@@ -161,7 +162,7 @@ namespace ProjectSLR
                         }
                     }
                 }
-
+                temp = temp.Distinct().ToList();
                 return temp;
             }
             else
@@ -170,6 +171,7 @@ namespace ProjectSLR
                 return null;
             }
         }
+
 
         public static List<string> primeros(string nombreProd)
         {
@@ -206,13 +208,19 @@ namespace ProjectSLR
                             primYSinLmbda.RemoveAll(x => x == "");
 
                             temp.AddRange(primYSinLmbda);
-                            temp = temp.Distinct().ToList();
+                            //temp = temp.Distinct().ToList();
 
                             i++;
 
                         }
-                        temp.AddRange(primeros(yn[i]));
 
+                        if (i == yn.Length)
+                        {
+                            i--;
+                            Console.WriteLine($"i: {i}");
+                        }
+                        temp.AddRange(primeros(yn[i]));
+                        temp = temp.Distinct().ToList();
                     }
                 }
                 return temp;
