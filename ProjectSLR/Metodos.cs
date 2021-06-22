@@ -224,12 +224,12 @@ namespace ProjectSLR
                             temp.AddRange(primeros(yn[i]));
                             temp = temp.Distinct().ToList();
                         }
-                        else 
-                        {
-                            Console.WriteLine("=====RECURSION INFINITA======");
-                            temp.Clear();
-                            temp.Add("RECURSION INFINITA");
-                        }
+                        //else 
+                        //{
+                        //    Console.WriteLine("=====RECURSION INFINITA======");
+                        //    temp.Clear();
+                        //    temp.Add("RECURSION INFINITA");
+                        //}
                         
                     }
                 }
