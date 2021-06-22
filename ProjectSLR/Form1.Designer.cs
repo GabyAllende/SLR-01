@@ -36,6 +36,9 @@
             this.rtxt_primeros = new System.Windows.Forms.RichTextBox();
             this.rtxt_siguientes = new System.Windows.Forms.RichTextBox();
             this.btn_grafo = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtProCadena = new System.Windows.Forms.TextBox();
+            this.btnProcesar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_gramatica)).BeginInit();
             this.SuspendLayout();
             // 
@@ -44,29 +47,26 @@
             this.dgv_gramatica.AllowUserToAddRows = false;
             this.dgv_gramatica.AllowUserToDeleteRows = false;
             this.dgv_gramatica.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_gramatica.Location = new System.Drawing.Point(16, 92);
-            this.dgv_gramatica.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgv_gramatica.Location = new System.Drawing.Point(12, 75);
             this.dgv_gramatica.Name = "dgv_gramatica";
             this.dgv_gramatica.RowHeadersWidth = 51;
-            this.dgv_gramatica.Size = new System.Drawing.Size(441, 423);
+            this.dgv_gramatica.Size = new System.Drawing.Size(331, 344);
             this.dgv_gramatica.TabIndex = 0;
             this.dgv_gramatica.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // txt_numProd
             // 
-            this.txt_numProd.Location = new System.Drawing.Point(228, 32);
-            this.txt_numProd.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txt_numProd.Location = new System.Drawing.Point(171, 26);
             this.txt_numProd.Name = "txt_numProd";
-            this.txt_numProd.Size = new System.Drawing.Size(132, 22);
+            this.txt_numProd.Size = new System.Drawing.Size(100, 20);
             this.txt_numProd.TabIndex = 1;
             this.txt_numProd.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // btn_ingresar
             // 
-            this.btn_ingresar.Location = new System.Drawing.Point(385, 26);
-            this.btn_ingresar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_ingresar.Location = new System.Drawing.Point(289, 21);
             this.btn_ingresar.Name = "btn_ingresar";
-            this.btn_ingresar.Size = new System.Drawing.Size(100, 28);
+            this.btn_ingresar.Size = new System.Drawing.Size(75, 23);
             this.btn_ingresar.TabIndex = 2;
             this.btn_ingresar.Text = "Ingresar";
             this.btn_ingresar.UseVisualStyleBackColor = true;
@@ -75,20 +75,18 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(32, 36);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(24, 29);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(172, 17);
+            this.label1.Size = new System.Drawing.Size(130, 13);
             this.label1.TabIndex = 3;
             this.label1.Text = "Numero de Producciones:";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // btn_ingresarGram
             // 
-            this.btn_ingresarGram.Location = new System.Drawing.Point(16, 523);
-            this.btn_ingresarGram.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_ingresarGram.Location = new System.Drawing.Point(12, 425);
             this.btn_ingresarGram.Name = "btn_ingresarGram";
-            this.btn_ingresarGram.Size = new System.Drawing.Size(100, 28);
+            this.btn_ingresarGram.Size = new System.Drawing.Size(75, 23);
             this.btn_ingresarGram.TabIndex = 4;
             this.btn_ingresarGram.Text = "Ingresar";
             this.btn_ingresarGram.UseVisualStyleBackColor = true;
@@ -96,38 +94,64 @@
             // 
             // rtxt_primeros
             // 
-            this.rtxt_primeros.Location = new System.Drawing.Point(511, 92);
-            this.rtxt_primeros.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rtxt_primeros.Location = new System.Drawing.Point(397, 41);
             this.rtxt_primeros.Name = "rtxt_primeros";
-            this.rtxt_primeros.Size = new System.Drawing.Size(472, 194);
+            this.rtxt_primeros.Size = new System.Drawing.Size(355, 158);
             this.rtxt_primeros.TabIndex = 5;
             this.rtxt_primeros.Text = "";
             // 
             // rtxt_siguientes
             // 
-            this.rtxt_siguientes.Location = new System.Drawing.Point(511, 308);
-            this.rtxt_siguientes.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rtxt_siguientes.Location = new System.Drawing.Point(397, 214);
             this.rtxt_siguientes.Name = "rtxt_siguientes";
-            this.rtxt_siguientes.Size = new System.Drawing.Size(472, 194);
+            this.rtxt_siguientes.Size = new System.Drawing.Size(355, 158);
             this.rtxt_siguientes.TabIndex = 6;
             this.rtxt_siguientes.Text = "";
             // 
             // btn_grafo
             // 
-            this.btn_grafo.Location = new System.Drawing.Point(768, 36);
-            this.btn_grafo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_grafo.Location = new System.Drawing.Point(692, 12);
             this.btn_grafo.Name = "btn_grafo";
-            this.btn_grafo.Size = new System.Drawing.Size(100, 28);
+            this.btn_grafo.Size = new System.Drawing.Size(75, 23);
             this.btn_grafo.TabIndex = 7;
             this.btn_grafo.Text = "Grafo";
             this.btn_grafo.UseVisualStyleBackColor = true;
             this.btn_grafo.Click += new System.EventHandler(this.button1_Click_2);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(365, 405);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(89, 13);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Procesar Cadena";
+            // 
+            // txtProCadena
+            // 
+            this.txtProCadena.Location = new System.Drawing.Point(469, 405);
+            this.txtProCadena.Name = "txtProCadena";
+            this.txtProCadena.Size = new System.Drawing.Size(167, 20);
+            this.txtProCadena.TabIndex = 9;
+            // 
+            // btnProcesar
+            // 
+            this.btnProcesar.Location = new System.Drawing.Point(666, 403);
+            this.btnProcesar.Name = "btnProcesar";
+            this.btnProcesar.Size = new System.Drawing.Size(75, 23);
+            this.btnProcesar.TabIndex = 10;
+            this.btnProcesar.Text = "Procesar";
+            this.btnProcesar.UseVisualStyleBackColor = true;
+            this.btnProcesar.Click += new System.EventHandler(this.btnProcesar_Click);
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1067, 554);
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnProcesar);
+            this.Controls.Add(this.txtProCadena);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.btn_grafo);
             this.Controls.Add(this.rtxt_siguientes);
             this.Controls.Add(this.rtxt_primeros);
@@ -136,7 +160,6 @@
             this.Controls.Add(this.btn_ingresar);
             this.Controls.Add(this.txt_numProd);
             this.Controls.Add(this.dgv_gramatica);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -156,6 +179,9 @@
         private System.Windows.Forms.RichTextBox rtxt_primeros;
         private System.Windows.Forms.RichTextBox rtxt_siguientes;
         private System.Windows.Forms.Button btn_grafo;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtProCadena;
+        private System.Windows.Forms.Button btnProcesar;
     }
 }
 

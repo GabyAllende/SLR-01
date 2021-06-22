@@ -142,6 +142,26 @@ namespace ProjectSLR
 
                             gramatica1[i].Item2[o] = atoms;
 
+
+                            //Al procesar cadena se especifica el lambda ya sea como espacio o como otra cadena 
+
+                            //List<string> atoms2 = new List<string>();
+
+                            //foreach(var mu in atoms)
+                            //{
+                            //    if (mu == "")
+                            //    {
+                            //        atoms2.Add("lmb");
+                            //    }
+                            //    else
+                            //    {
+                            //        atoms2.Add(mu);
+                            //    }
+                            //}    
+
+                            
+                            
+                            
                             aux.Item2 = atoms.ToList();
                             gramatica2.Add(aux);
                         }
@@ -253,6 +273,7 @@ namespace ProjectSLR
             Microsoft.Msagl.Drawing.Graph graph = new Microsoft.Msagl.Drawing.Graph("graph");
             //create the graph content 
             graph.AddEdge("A", "B");
+            graph.AddNode("F");
             graph.AddEdge("B", "C");
             graph.AddEdge("A", "C").Attr.Color = Microsoft.Msagl.Drawing.Color.Green;
             graph.FindNode("A").Attr.FillColor = Microsoft.Msagl.Drawing.Color.Magenta;
@@ -275,6 +296,36 @@ namespace ProjectSLR
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
+        }
+
+        private void btnProcesar_Click(object sender, EventArgs e)
+        {
+            (bool, List < (int, string) >, List<(int, string)>) m = Metodos.procesarCadena(txtProCadena.Text, caminos, gramatica2);
+            if(m.Item1 == true)
+            {
+                MessageBox.Show("Cadena Aceptada", "Procesar Cadena",MessageBoxButtons.OK);
+            }
+            else
+            {
+                MessageBox.Show("Cadena Denegada", "Procesar Cadena", MessageBoxButtons.OK);
+            }
+
+
+            Console.WriteLine("Grafo para graficar");
+            foreach(var milo in m.Item2)
+            {
+                Console.Write(milo.Item1 + ",");
+                Console.WriteLine(milo.Item2);
+            }
+
+            Console.WriteLine("----------------------------------------");
+            foreach (var mile in m.Item3)
+            {
+                Console.Write(mile.Item1 + ",");
+                Console.WriteLine(mile.Item2);
+            }
+
 
         }
     }

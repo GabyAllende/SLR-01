@@ -643,5 +643,174 @@ namespace ProjectSLR
             return (caminos, estados);
         }
 
+        public static (bool, List<(int, string)>, List<(int, string)>) procesarCadena(string c, List<List<(string, string)>> a, List<(string, List<string>)> gramatica)
+        {
+
+
+            Stack<string> pila = new Stack<string>();
+            pila.Push("0");
+            string antes = c + " $";
+
+
+            string[] cadena = antes.Split(' ');
+            int i = 0;
+            string b = cadena[i];
+
+            string devuelve;
+
+            int estado = 0;
+
+            //Console.WriteLine(tabla[1][1].Item1);
+
+            bool aceptado = false;
+
+
+            List<(int,string)> pendientes = new List<(int,string)>();
+            List<(int, string)> registro = new List<(int, string)>();
+            List<(int, string)> grafo = new List<(int, string)>();
+           
+
+            int contador = -1;
+
+            do
+            {
+
+                string s = pila.First();
+                Console.WriteLine($"elemento de la pila : {s}");
+                Console.WriteLine($"elemento de la cadena : {b}");
+                devuelve = Accion(s, b,a); //Primera produccion y primera palabra de mi cadena
+                Console.WriteLine($"devuelve despues de Accion : {devuelve}");
+
+                if (devuelve == null)
+                {
+                    Console.WriteLine("cadena erronea");
+                    break;
+                }
+                else if (devuelve.Contains("s"))
+                {
+                    contador++;
+                    //Agregamos pendientes
+                    pendientes.Add((contador, b));
+                    registro.Add((contador, b));
+                    //contador++;
+
+                    Console.WriteLine("Contiene s");
+                    devuelve = devuelve.Replace("s", string.Empty);//nos quedamos solo con el numero
+                    pila.Push(devuelve);
+                    estado = int.Parse(devuelve);
+                    Console.WriteLine($"Push de devuelve: {devuelve}");
+                    i++;
+                    b = cadena[i];
+
+
+                }
+                else if (devuelve.Contains("r")) //reduce
+                {
+                    Console.WriteLine("Contiene r");
+                    devuelve = devuelve.Replace("r", string.Empty);//nos quedamos solo con el numero
+
+                    string conexion = gramatica[int.Parse(devuelve) - 1].Item1;
+                    List<string> debe = gramatica[int.Parse(devuelve) - 1].Item2;
+
+                    //pendientes.Add(conexion);
+                    List<(int, string)> subPendientes = new List<(int, string)>();
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    foreach (var pe in pendientes)
+                    {
+                        Console.WriteLine("pendiendtes: " + pe.Item1 + "," + pe.Item2);
+                    }
+                    for (int j = debe.Count - 1; j > -1; j--)
+                    {
+                        int aux = pendientes.Count - debe.Count;
+                        Console.WriteLine("debe[j]: " +debe[j]);
+                        if(pendientes[j+aux].Item2 == debe[j])
+                        {
+                            
+                            subPendientes.Add(pendientes[j+aux]);
+                        }
+                        else
+                        {
+                            Console.WriteLine("cadena erronea");
+                        };
+                    }
+
+                    pendientes.RemoveRange(pendientes.Count - subPendientes.Count, subPendientes.Count);
+                    
+                    contador++;
+                    Console.WriteLine("contador: "+contador);
+                    pendientes.Add((contador, conexion));
+                    registro.Add((contador, conexion));
+                    Console.WriteLine("conexion: "+conexion);
+                    foreach(var graf in subPendientes)
+                    {
+                        Console.WriteLine("graf.Item2: "+ graf.Item2);
+                        grafo.Add((contador,graf.Item1.ToString()));
+                    }
+                    //contador++;
+
+                    Console.ForegroundColor = ConsoleColor.White;
+
+                    for (int j = 0; j < gramatica[int.Parse(devuelve) - 1].Item2.Count; j++)
+                    {
+                        pila.Pop();
+                    }
+                    string p = pila.First();
+                   Console.WriteLine("p : " + p);
+                    string A = gramatica[int.Parse(devuelve) - 1].Item1;
+                    Console.WriteLine("A : " + A);
+                    estado = int.Parse(p);
+                    pila.Push(Accion(p, A,a));
+
+
+
+
+                }
+                else if (devuelve.Contains("acc"))
+                {
+
+                    //Devuelve el arbol
+
+                    Console.WriteLine("Estado de Aceptacion");
+                    aceptado = true;
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Solo ir a....");
+
+                    pila.Push(Accion(s, b,a));
+                }
+
+
+
+            } while (true);
+            return (aceptado,grafo, registro);
+        }
+
+        public static string Accion(string s, string m, List<List<(string, string)>> a)
+        {
+            List<(string, string)> revisar = new List<(string, string)>();
+            int index;
+            revisar = a[int.Parse(s)];
+
+            index = revisar.FindIndex(T => T.Item1 == m);
+            if (!(index == -1))
+            {
+                Console.WriteLine($"Index : {index}");
+                return revisar[index].Item2;
+            }
+
+            return null;
+
+        }
+
+
+
     }
+
+
+
+
+
+
 }
