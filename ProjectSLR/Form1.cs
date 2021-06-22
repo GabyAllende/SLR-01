@@ -20,6 +20,9 @@ namespace ProjectSLR
 
         List<List<(string, List<string>, int)>> estados { get; set; }
 
+        List<(int,string)> grafo { get; set; }
+        List<(int, string)> registrado { get; set; }
+
         List<List<(string, string)>> caminos { get; set; }
 
         public Form1()
@@ -27,6 +30,9 @@ namespace ProjectSLR
             InitializeComponent();
             dgv_gramatica.Enabled = false;
             btn_ingresarGram.Enabled = false;
+            btn_grafo.Enabled = false;
+            btnProcesar.Enabled = false;
+            btnArbol.Enabled = false;
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -224,6 +230,8 @@ namespace ProjectSLR
 
         private void button1_Click_1(object sender, EventArgs e)
         {
+            btnProcesar.Enabled = true;
+            btn_grafo.Enabled = true;
             fillGram1();
             fillPrimerosSiguientes();
         }
@@ -279,16 +287,21 @@ namespace ProjectSLR
 
         private void btnProcesar_Click(object sender, EventArgs e)
         {
+            //btnArbol.Enabled = true;
             (bool, List < (int, string) >, List<(int, string)>) m = Metodos.procesarCadena(txtProCadena.Text, caminos, gramatica2);
             if(m.Item1 == true)
             {
                 MessageBox.Show("Cadena Aceptada", "Procesar Cadena",MessageBoxButtons.OK);
+                btnArbol.Enabled = true;
             }
             else
             {
                 MessageBox.Show("Cadena Denegada", "Procesar Cadena", MessageBoxButtons.OK);
             }
 
+           
+            grafo = m.Item2;
+            registrado = m.Item3;
 
             Console.WriteLine("Grafo para graficar");
             foreach(var milo in m.Item2)
@@ -305,6 +318,13 @@ namespace ProjectSLR
             }
 
 
+        }
+
+        private void btnArbol_Click(object sender, EventArgs e)
+        {
+            Arbol a = new Arbol(grafo, registrado);
+
+            a.ShowDialog();
         }
     }
 }

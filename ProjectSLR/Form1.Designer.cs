@@ -39,6 +39,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtProCadena = new System.Windows.Forms.TextBox();
             this.btnProcesar = new System.Windows.Forms.Button();
+            this.btnArbol = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_gramatica)).BeginInit();
             this.SuspendLayout();
             // 
@@ -136,7 +137,7 @@
             // 
             // btnProcesar
             // 
-            this.btnProcesar.Location = new System.Drawing.Point(666, 403);
+            this.btnProcesar.Location = new System.Drawing.Point(666, 395);
             this.btnProcesar.Name = "btnProcesar";
             this.btnProcesar.Size = new System.Drawing.Size(75, 23);
             this.btnProcesar.TabIndex = 10;
@@ -144,11 +145,22 @@
             this.btnProcesar.UseVisualStyleBackColor = true;
             this.btnProcesar.Click += new System.EventHandler(this.btnProcesar_Click);
             // 
+            // btnArbol
+            // 
+            this.btnArbol.Location = new System.Drawing.Point(666, 425);
+            this.btnArbol.Name = "btnArbol";
+            this.btnArbol.Size = new System.Drawing.Size(75, 23);
+            this.btnArbol.TabIndex = 11;
+            this.btnArbol.Text = "Arbol";
+            this.btnArbol.UseVisualStyleBackColor = true;
+            this.btnArbol.Click += new System.EventHandler(this.btnArbol_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnArbol);
             this.Controls.Add(this.btnProcesar);
             this.Controls.Add(this.txtProCadena);
             this.Controls.Add(this.label2);
@@ -182,6 +194,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtProCadena;
         private System.Windows.Forms.Button btnProcesar;
+        private System.Windows.Forms.Button btnArbol;
     }
 }
 
