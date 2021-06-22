@@ -199,28 +199,38 @@ namespace ProjectSLR
                     }
                     else
                     {
-                        List<string> primerosY = primeros(yn[i]);
-
-
-                        while (i < yn.Length && primeros(yn[i]).Contains(""))
+                        if (yn[i] != nombreProd)
                         {
-                            List<string> primYSinLmbda = primeros(yn[i]);
-                            primYSinLmbda.RemoveAll(x => x == "");
+                            List<string> primerosY = primeros(yn[i]);
 
-                            temp.AddRange(primYSinLmbda);
-                            //temp = temp.Distinct().ToList();
 
-                            i++;
+                            while (i < yn.Length && primeros(yn[i]).Contains(""))
+                            {
+                                List<string> primYSinLmbda = primeros(yn[i]);
+                                primYSinLmbda.RemoveAll(x => x == "");
 
+                                temp.AddRange(primYSinLmbda);
+                                //temp = temp.Distinct().ToList();
+
+                                i++;
+
+                            }
+
+                            if (i == yn.Length)
+                            {
+                                i--;
+                                Console.WriteLine($"i: {i}");
+                            }
+                            temp.AddRange(primeros(yn[i]));
+                            temp = temp.Distinct().ToList();
                         }
-
-                        if (i == yn.Length)
+                        else 
                         {
-                            i--;
-                            Console.WriteLine($"i: {i}");
+                            Console.WriteLine("=====RECURSION INFINITA======");
+                            temp.Clear();
+                            temp.Add("RECURSION INFINITA");
                         }
-                        temp.AddRange(primeros(yn[i]));
-                        temp = temp.Distinct().ToList();
+                        
                     }
                 }
                 return temp;
