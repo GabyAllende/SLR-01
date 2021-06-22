@@ -8,11 +8,11 @@ namespace ProjectSLR
 {
     public static class Metodos
     {
-        public static bool isNumber(string cadena) 
+        public static bool isNumber(string cadena)
         {
-            foreach (char a in cadena) 
+            foreach (char a in cadena)
             {
-                if (!Char.IsNumber(a)) 
+                if (!Char.IsNumber(a))
                 {
                     return false;
                 }
@@ -252,6 +252,391 @@ namespace ProjectSLR
 
 
 
+        }
+
+
+
+        ////////////////A PARTIR DE ACA SON METODOS PARA EL ANALISIS SINTACTICO
+        /// SLR
+
+        public static int encontrarEstadoconEstado(List<List<(string, List<string>, int)>> estados, List<(string, List<string>, int)> new_estado)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+
+            for (int j = 0; j < estados.Count; j++)
+            {
+                int i = 0;
+                if (estados[j].Count == new_estado.Count)
+                {
+
+                    foreach (var ne in new_estado)
+                    {
+                        foreach (var e in estados[j])
+                        {
+
+                            if (ne.Item1 == e.Item1 && ne.Item2.Equals(e.Item2) && ne.Item3 == e.Item3)
+                            {
+
+                                i++;
+                                break;
+                            }
+
+                        }
+
+                    }
+
+                    if (i == estados[j].Count)
+                    {
+
+                        return j;
+                    }
+
+
+                }
+
+            }
+
+            Console.ForegroundColor = ConsoleColor.White;
+            return -2;
+        }
+
+
+        public static void imprimirproduccion((string, List<string>, int) prod)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"({prod.Item1},[{String.Join(",", prod.Item2)}],{prod.Item3} )");
+            Console.ForegroundColor = ConsoleColor.White;
+
+        }
+        public static void imprimirEstado(List<(string, List<string>, int)> estado)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("## new estado");
+            foreach (var e in estado)
+            {
+                imprimirproduccion(e);
+            }
+            Console.WriteLine("## fin ");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+        public static void imprimirEstados(List<List<(string, List<string>, int)>> estados)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("IMPRMIENTOS ESTADOS:");
+            foreach (var estado in estados)
+            {
+                imprimirEstado(estado);
+            }
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        public static List<(string, List<string>, int)> findAllSimbolo(List<(string, List<string>, int)> estado, string simbolo)
+        {
+            List<(string, List<string>, int)> aux = new List<(string, List<string>, int)>();
+            foreach (var est in estado)
+            {
+                if (!(est.Item2.Count == est.Item3))
+                {
+                    if (est.Item2[est.Item3] == simbolo) { aux.Add(est); }
+                }
+
+            }
+            return aux;
+
+        }
+
+
+        public static List<(string, List<string>, int)> primerEstado(List<(string, List<string>)> tablaBase, List<string> noterminales)
+        {
+
+            List<(string, List<string>, int)> res = new List<(string, List<string>, int)>();
+
+            List<string> segundaParte = new List<string>();
+            segundaParte.Add(tablaBase[0].Item1);
+            (string, List<string>, int) piece = (tablaBase[0].Item1 + "'", segundaParte, 0);
+            res.Add(piece);
+            // que vaya por todos los objetos de la lista, de esta forma se va expandiendo
+            List<string> added = new List<string>();
+            added.Add(res[0].Item1);
+
+
+            for (int i = 0; i < res.Count; i++)
+            {
+
+                string simbolo = res[i].Item2[res[i].Item3];
+                Console.WriteLine($"int i:{i}");
+                Console.WriteLine($"simbolo:{simbolo}");
+                //si no es terminal y ya no pase por el
+                if (noterminales.Contains(simbolo) && !added.Contains(simbolo))
+                {
+                    //Encontrar todas las producciones 
+                    added.Add(simbolo);
+                    List<(string, List<string>)> finded = tablaBase.FindAll(produccion => produccion.Item1 == simbolo);
+                    //add todas las producciones
+                    foreach (var parte in finded)
+                    {
+                        (string, List<string>, int) toAdd = (parte.Item1, parte.Item2, 0);
+                        res.Add(toAdd);
+                    }
+                }
+            }
+
+
+
+            return res;
+        }
+        public static void printGramatica2 (List<(string, List<string>)> gramatica)
+        {
+            foreach (var gr in gramatica)
+            {
+                Console.WriteLine($"{gr.Item1}  -> {String.Join(",",gr.Item2)} ");
+            }
+            
+       }
+
+        public static List<List<(string, string)>> automataSLR(List<string> terminales , List<string> noterminales , List<(string, List<string>)> tablaBase)
+        {
+
+
+
+
+            Console.WriteLine("IMPRIMIENTO TABLABASE");
+            Console.WriteLine("[");
+            foreach (var ex in tablaBase)
+            {
+                Console.WriteLine($"( {ex.Item1} , [{String.Join(",", ex.Item2)}]) ,");
+
+            }
+            Console.WriteLine("  ]");
+
+            Console.WriteLine($"IMPRIMIENTO NO TERMINALES: [{String.Join(",", noterminales)}]");
+            Console.WriteLine($"IMPRIMIENTO TERMINALES: [{String.Join(",", terminales)}]");
+
+
+
+            List<List<(string, List<string>, int)>> estados = new List<List<(string, List<string>, int)>>();
+
+            //Crear primer estado
+
+            List<(string, List<string>, int)> estadoInicial = primerEstado(tablaBase, noterminales);
+
+            Console.WriteLine("ÏMPRIMIENTO ESTADO INICIAL");
+            Console.WriteLine("[");
+            foreach (var ex in estadoInicial)
+            {
+                Console.WriteLine($"( {ex.Item1} , [{String.Join(",", ex.Item2)}] , {ex.Item3} ) ,");
+
+            }
+            Console.WriteLine("  ]");
+
+            estados.Add(estadoInicial);
+            imprimirEstados(estados);
+
+
+            List<List<(string, string)>> caminos = new List<List<(string, string)>>();
+
+
+            // sido recorridos
+            for (int j = 0; j < estados.Count; j++)
+            {
+
+
+                imprimirEstados(estados);
+
+                Console.WriteLine($"ESTADO :[I{j}]");
+
+                //ya pase por ese simbolo
+                List<string> added = new List<string>();
+
+                //camino de cada estado
+                List<(string, string)> caminoIndividual = new List<(string, string)>();
+
+                //Se generan distintos estados de un solo estado , por eso vamos por todas las producciones de un estado
+                foreach (var prod in estados[j])
+                {
+                    (string, string) miniCamino = ("", "");
+
+                    imprimirproduccion(prod);
+                    //Verificacion previa que no esta totalmente consumido
+
+                    if (prod.Item2.Count == prod.Item3)
+                    {
+                        //consumido
+                        Console.WriteLine("Consumindo");
+
+
+                        if (!noterminales.Contains(prod.Item1))
+                        {
+                            //es estado acc
+                            miniCamino = ("$", "acc");
+                            caminoIndividual.Add(miniCamino);
+
+                        }
+                        else
+                        {
+                            //donde estan los primeras
+                           
+                            List<string> lista_siguientes = siguientes(prod.Item1);
+                            int q = 0;
+                            //(string, List<string>) aux = tablaBase.Find(item=> item.Item2.Equals(prod.Item2));
+                            while (q<tablaBase.Count)
+                            {
+                                if (tablaBase[q].Item2.Equals(prod.Item2)) 
+                                {
+                                    break;
+                                }
+                                q++;
+                            }
+                            foreach (string s in lista_siguientes) 
+                            {
+                                miniCamino = (s, "r" + (q+1).ToString());
+                                caminoIndividual.Add(miniCamino);
+
+                            }
+                            
+
+                        }
+
+
+                    }
+                    else
+                    {
+
+                        //no consumido
+                        //considerar que este es un nuevo estado
+                        string simboloParaRecorrer = prod.Item2[prod.Item3];
+
+                        Console.WriteLine($"SIMBOLO PARA RECORRER:[{simboloParaRecorrer}]");
+
+                        //si no he ido por ese simbolo
+                        if (!added.Contains(simboloParaRecorrer))
+                        {
+
+                            added.Add(simboloParaRecorrer);
+
+                            //encontrar todos las producciones con este simbolo para avanzar
+                            List<(string, List<string>, int)> prodRecorrer = findAllSimbolo(estados[j], simboloParaRecorrer);
+
+
+                            Console.WriteLine($"Para recorrer con: {simboloParaRecorrer} hay {prodRecorrer.Count} items");
+
+
+
+                            //generar el estado y que sea similar
+                            List<(string, List<string>, int)> estadoTemporal = new List<(string, List<string>, int)>();
+
+                            foreach (var miniprod in prodRecorrer)
+                            {
+
+                                (string, List<string>, int) sig = (miniprod.Item1, miniprod.Item2, miniprod.Item3 + 1);
+                                estadoTemporal.Add(sig);
+
+
+
+                            }
+
+                            //para ver si ya pase por la terminal, armando los estados
+                            List<string> added2 = new List<string>();
+
+
+
+                            //a partir de lo basico agregado ver si hay producciones, y producciones de producciones
+                            for (int i = 0; i < estadoTemporal.Count; i++)
+                            {
+                                //si no es consumido
+                                if (estadoTemporal[i].Item2.Count != estadoTemporal[i].Item3)
+                                {
+                                    string simbolo = estadoTemporal[i].Item2[estadoTemporal[i].Item3];
+                                    //si no es terminal y ya no pase por el
+                                    if (noterminales.Contains(simbolo) && !added2.Contains(simbolo))
+                                    {
+
+                                        added2.Add(simbolo);
+
+                                        //Encontrar todas las producciones 
+                                        List<(string, List<string>)> finded = tablaBase.FindAll(produccion => produccion.Item1 == simbolo);
+                                        //add todas las producciones
+                                        foreach (var parte in finded)
+                                        {
+                                            (string, List<string>, int) toAdd = (parte.Item1, parte.Item2, 0);
+                                            estadoTemporal.Add(toAdd);
+                                        }
+
+                                    }
+
+                                }
+
+
+
+                            }
+
+                            //analisis si existe un estado similar a estado Temporal
+
+                            Console.WriteLine("IMPRIMIENDO ESTADO A ENCONTRAAR:");
+
+                            int indice = encontrarEstadoconEstado(estados, estadoTemporal);
+                            if (indice == -2)
+                            {
+                                Console.WriteLine("NOO HAY IGUAL ESTADO");
+                                //no existe
+                                estados.Add(estadoTemporal);
+                                //Console.WriteLine("====== beg");
+                                //imprimirEstado(estadoTemporal);
+                                //Console.WriteLine("====== end");
+
+                                int ind = estados.Count - 1;
+                                if (terminales.Contains(simboloParaRecorrer))
+                                {
+                                   
+                                    miniCamino = (simboloParaRecorrer, "s" + ind.ToString());
+                                    caminoIndividual.Add(miniCamino);
+                                }
+                                else 
+                                {
+                                    miniCamino = (simboloParaRecorrer, ind.ToString());
+                                    caminoIndividual.Add(miniCamino);
+                                }
+
+                                
+
+                            }
+                            else
+                            {
+                                if (terminales.Contains(simboloParaRecorrer))
+                                {
+
+                                    Console.WriteLine("SI HAY IGUAL ESTADO");
+                                    miniCamino = (simboloParaRecorrer,"s"+ indice.ToString());
+                                    caminoIndividual.Add(miniCamino);
+
+                                }
+                                else 
+                                {
+
+                                    miniCamino = (simboloParaRecorrer, indice.ToString());
+                                    caminoIndividual.Add(miniCamino);
+                                }
+                            }
+
+
+
+
+                        }
+                        else { Console.WriteLine("Ya se lo trato"); }
+
+
+                    }
+
+
+
+                }
+                caminos.Add(caminoIndividual);
+                //caminoIndividual.Clear();
+
+            }
+
+
+            return caminos;
         }
 
     }

@@ -16,7 +16,8 @@ namespace ProjectSLR
     {
         private int numProducciones;
         public static (string, string[][])[] gramatica1 { get; set; }
-        
+        public static List<(string, List<string>)> gramatica2 { get; set; }
+
         public Form1()
         {
             InitializeComponent();
@@ -81,8 +82,12 @@ namespace ProjectSLR
         {
             bool salto = false;
             gramatica1 = new (string, string[][])[numProducciones];
+            gramatica2 = new List<(string, List<string>)>();
 
             Console.WriteLine("dgv_gramatica.Rows.Count: " + dgv_gramatica.Rows.Count);
+            List<string> terminales = new List<string>();
+            List<string> noterminales = new List<string>();
+
 
             for (int i = 0; i < dgv_gramatica.Rows.Count; i++)
             {
@@ -90,6 +95,7 @@ namespace ProjectSLR
                 {
                     break;
                 }
+                (string, List<string>) aux = ("",new List<string>()); 
                 for (int j = 0; j < dgv_gramatica.Columns.Count; j++)
                 {
                     if (dgv_gramatica.Rows[i].Cells[j].Value == null || string.IsNullOrEmpty(dgv_gramatica.Rows[i].Cells[j].Value.ToString()) || string.IsNullOrWhiteSpace(dgv_gramatica.Rows[i].Cells[j].Value.ToString()))
@@ -103,6 +109,9 @@ namespace ProjectSLR
                     if (j == 0)
                     {
                         gramatica1[i].Item1 = dgv_gramatica.Rows[i].Cells[j].Value.ToString();
+                        aux.Item1 = dgv_gramatica.Rows[i].Cells[j].Value.ToString();
+                        if (!noterminales.Contains(aux.Item1)) { noterminales.Add(aux.Item1); }
+
                     }
                     if (j == 2)
                     {
@@ -129,7 +138,8 @@ namespace ProjectSLR
 
                             gramatica1[i].Item2[o] = atoms;
 
-
+                            aux.Item2 = atoms.ToList();
+                            gramatica2.Add(aux);
                         }
                     }
 
@@ -137,12 +147,33 @@ namespace ProjectSLR
                 }
             }
 
+            //adding terminales
+            foreach (var segmento in gramatica2)
+            {
+                foreach (string s in segmento.Item2)
+                {
+                    if (!noterminales.Contains(s) && !terminales.Contains(s)) { terminales.Add(s); }
+
+                }
+
+            }
+
+
             if (salto)
             {
                 gramatica1 = null;
             }
 
             printGram1();
+            //Metodos.printGramatica2(gramatica2);
+            List<List<(string, string)>> caminos = Metodos.automataSLR(terminales, noterminales, gramatica2);
+            Console.WriteLine("IMPRIMIENTO LOS CAMINOS");
+            foreach (var camino in caminos)
+            {
+                Console.WriteLine("[" + String.Join(",", camino) + "]");
+
+            }
+
 
         }
 
@@ -235,6 +266,11 @@ namespace ProjectSLR
             a.ShowDialog();
 
             //a.Show();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
