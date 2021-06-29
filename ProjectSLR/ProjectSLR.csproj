@@ -80,6 +80,7 @@
       <DependentUpon>Graph.cs</DependentUpon>
     </Compile>
     <Compile Include="Metodos.cs" />
+    <Compile Include="OurGramatica.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Arbol.resx">

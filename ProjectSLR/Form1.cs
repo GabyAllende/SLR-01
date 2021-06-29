@@ -288,7 +288,7 @@ namespace ProjectSLR
         private void btnProcesar_Click(object sender, EventArgs e)
         {
             //btnArbol.Enabled = true;
-            (bool, List < (int, string) >, List<(int, string)>) m = Metodos.procesarCadena(txtProCadena.Text, caminos, gramatica2);
+            (bool, List < (int, string) >, List<(int, string)>) m = Metodos.procesarCadena(txtProCadena.Text, caminos, gramatica2);  ///Aquiiiiii?
             if(m.Item1 == true)
             {
                 MessageBox.Show("Cadena Aceptada", "Procesar Cadena",MessageBoxButtons.OK);
